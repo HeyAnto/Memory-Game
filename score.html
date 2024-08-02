@@ -14,16 +14,17 @@
             <h1>Memory Game</h1>
         </header>
 
-        <section class="card-container">
-            <div class="card-start">
-                <img class="card-0" src="Assets/Cards/card-mermaid.png" onclick="startGame()"/>
-                <img class="card-1" src="Assets/Cards/card-cactus.png" onclick="startGame()"/>
-                <img class="card-2" src="Assets/Cards/card-flag.png" onclick="startGame()"/>
-                <img class="card-3" src="Assets/Cards/card-skull.png" onclick="startGame()"/>
+        <section class="score-container">
+            <div class="score-title">
+                <h1>Score</h1>
+                <div class="score-info">
+                    <p id="finaltime">00</p>
+                    <p id="finalmove">00</p>
+                </div>
             </div>
-            <p class="annotation">Click on the cards to start</p>
+            <a class="score-return-btn" onclick="goToMenu()"><p class="p-menu">Return to menu</p></a>
         </section>
-        
+
         <footer>
             <div class="social">
                 <a class="icon-social" href="#"><img src="Assets/Icons/Socials/icon-instagram.svg" alt="Instagram"></a>

@@ -13,17 +13,24 @@
             <img class="logo" src="Assets/Icon.png" alt="Logo"/>
             <h1>Memory Game</h1>
         </header>
-
-        <section class="card-container">
-            <div class="card-start">
-                <img class="card-0" src="Assets/Cards/card-mermaid.png" onclick="startGame()"/>
-                <img class="card-1" src="Assets/Cards/card-cactus.png" onclick="startGame()"/>
-                <img class="card-2" src="Assets/Cards/card-flag.png" onclick="startGame()"/>
-                <img class="card-3" src="Assets/Cards/card-skull.png" onclick="startGame()"/>
-            </div>
-            <p class="annotation">Click on the cards to start</p>
-        </section>
         
+        <section class="game-container">
+            <div class="info">
+                <a class="return-btn" onclick="goBack()"><p class="p-menu">Return</p></a>
+                <div class="timer">
+                    <img src="Assets/Icons/icon-timer.svg"/>
+                    <p class="p-menu" id="moves">00:00</p>
+                </div>
+                <div class="moves">
+                    <img src="Assets/Icons/icon-moves.svg"/>
+                    <p class="p-menu" id="moves">0</p>
+                </div>
+            </div>
+            <div class="board">
+
+            </div>
+        </section>
+
         <footer>
             <div class="social">
                 <a class="icon-social" href="#"><img src="Assets/Icons/Socials/icon-instagram.svg" alt="Instagram"></a>
