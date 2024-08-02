@@ -265,11 +265,11 @@ footer {
 }
 
 .card-back {
-    background: url('path/to/your/back-image.jpg') no-repeat center center/cover;
+    background: url('Assets/Cards/card-back.png') no-repeat center center/cover;
 }
 
 .card-front {
-    background: url('path/to/your/front-image.jpg') no-repeat center center/cover;
+    background: url('Assets/Cards/card-sun.png') no-repeat center center/cover;
     transform: rotateY(180deg);
 }
 

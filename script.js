@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gameBoard) {
         const cards = [
             'Assets/Cards/card-sun.png', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8', 'img9',
-            'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8', 'img9'
+            'Assets/Cards/card-sun.png', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8', 'img9'
         ];
 
         let moves = 0;
