@@ -121,7 +121,7 @@ function updateTimer() {
 
 function endGame() {
     clearInterval(timer);
-    const finalScore = `${moves} mouvements en ${document.getElementById('timer').textContent}`;
+    const finalScore = `${moves} movements in ${document.getElementById('timer').textContent}`;
     localStorage.setItem('finalScore', finalScore);
     window.location.href = 'score.html';
 }
