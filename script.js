@@ -12,7 +12,7 @@ function startGame() {
 }
 
 function returnToMenu() {
-    window.location.href = 'menu.html';
+    window.location.href = 'index.html';
 }
 
 function setupGamePage() {
