@@ -7,39 +7,27 @@
     <link rel="icon" href="Assets/Icon.png">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <section class="page">
+<body id="game">
+    <section class="page-game">
         <header>
             <img class="logo" src="Assets/Icon.png" alt="Logo"/>
             <h1>Memory Game</h1>
         </header>
 
-        <section class="game-container">
-            <div class="info">
-                <a class="return-btn" onclick="goBack()"><p class="p-menu">Return</p></a>
-                <div class="timer">
-                    <img src="Assets/Icons/icon-timer.svg"/>
-                    <p class="p-menu" id="timer">00:00</p>
-                </div>
-                <div class="moves">
-                    <img src="Assets/Icons/icon-moves.svg"/>
-                    <p class="p-menu" id="moves">0</p>
-                </div>
+        <div class="info">
+            <a class="return-btn" onclick="returnToMenu()"><p class="p-menu">Return</p></a>
+            <div class="time">
+                <img src="Assets/Icons/icon-timer.svg"/>
+                <p class="p-menu" id="timer">00:00</p>
             </div>
-            <div id="board">
+            <div class="moves">
+                <img src="Assets/Icons/icon-moves.svg"/>
+                <p class="p-menu" id="moves">0</p>
+            </div>
+        </div>
+        <div id="game-board">
 
-            </div>
-        </section>
-
-        <footer>
-            <div class="social">
-                <a class="icon-social" href="#"><img src="Assets/Icons/Socials/icon-instagram.svg" alt="Instagram"></a>
-                <a class="icon-social" href="#"><img src="Assets/Icons/Socials/icon-linkedin.svg" alt="LinkedIn"></a>
-                <a class="icon-social" href="#"><img src="Assets/Icons/Socials/icon-x.svg" alt="X (Twitter)"></a>
-                <a class="icon-social" href="#"><img src="Assets/Icons/Socials/icon-bento.svg" alt="Bento"></a>
-            </div>
-            <p class="annotation">By Antonin SIOLY</p>
-        </footer>
+        </div>
     </section>
     <script src="script.js"></script>
 </body>

@@ -1,110 +1,127 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const page = document.body.id;
+    if (page === 'game') {
+        setupGamePage();
+    } else if (page === 'score') {
+        setupScorePage();
+    }
+});
+
 function startGame() {
     window.location.href = 'game.html';
 }
 
-function goBack() {
+function returnToMenu() {
     window.location.href = 'menu.html';
 }
 
-function goToMenu() {
-    window.location.href = 'menu.html';
+function setupGamePage() {
+    startGameSession();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Game Page Logic
-    const gameBoard = document.getElementById('board');
-    if (gameBoard) {
-        const cards = [
-            'Assets/Cards/card-sun.png', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8', 'img9',
-            'Assets/Cards/card-sun.png', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8', 'img9'
-        ];
+function setupScorePage() {
+    const finalScore = localStorage.getItem('finalScore');
+    document.getElementById('final-score').textContent = finalScore;
+}
 
-        let moves = 0;
-        let matchedPairs = 0;
-        let firstCard, secondCard;
-        let isFlipping = false;
-        let startTime, timerInterval;
+const cardImages = [
+    'Assets/Cards/card-sun.png', 'Assets/Cards/card-fish.png', 'Assets/Cards/card-skull.png', 'Assets/Cards/card-cactus.png', 
+    'Assets/Cards/card-frog.png', 'Assets/Cards/card-mermaid.png', 'Assets/Cards/card-flag.png', 'Assets/Cards/card-spider.png', 'Assets/Cards/card-umbrella.png'
+];
 
-        shuffle(cards);
-        cards.forEach(card => {
-            const cardElement = document.createElement('div');
-            cardElement.classList.add('card');
-            cardElement.dataset.card = card;
-            cardElement.innerHTML = `
-                <div class="card-back"></div>
-                <div class="card-front" style="background-image: url('path/to/your/${card}.jpg')"></div>
-            `;
-            cardElement.onclick = flipCard;
-            gameBoard.appendChild(cardElement);
-        });
-        startTimer();
+let timer;
+let time;
+let moves;
+let firstCard, secondCard;
+let lockBoard = false;
+let pairsFound;
 
-        function shuffle(array) {
-            array.sort(() => Math.random() - 0.5);
-        }
+function startGameSession() {
+    time = 0;
+    moves = 0;
+    pairsFound = 0;
+    firstCard = secondCard = null;
+    const gameBoard = document.getElementById('game-board');
+    gameBoard.innerHTML = '';
+    document.getElementById('moves').textContent = `${moves}`;
+    document.getElementById('timer').textContent = '00:00';
+    clearInterval(timer);
+    timer = setInterval(updateTimer, 1000);
+    createCards();
+}
 
-        function flipCard() {
-            if (isFlipping || this === firstCard) return;
-            this.classList.add('is-flipped');
+function createCards() {
+    const cards = [...cardImages, ...cardImages]
+        .sort(() => 0.5 - Math.random())
+        .map(image => createCard(image));
+    cards.forEach(card => document.getElementById('game-board').appendChild(card));
+}
 
-            if (!firstCard) {
-                firstCard = this;
-                return;
-            }
+function createCard(image) {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.innerHTML = `
+        <div class="card-inner">
+            <div class="card-front" style="background-image: url('${image}')"></div>
+            <div class="card-back"></div>
+        </div>`;
+    card.addEventListener('click', flipCard);
+    return card;
+}
 
-            secondCard = this;
-            moves++;
-            document.getElementById('moves').textContent = moves;
-
-            checkForMatch();
-        }
-
-        function checkForMatch() {
-            const isMatch = firstCard.dataset.card === secondCard.dataset.card;
-            if (isMatch) {
-                matchedPairs++;
-                resetBoard();
-                if (matchedPairs === cards.length / 2) {
-                    endGame();
-                }
-            } else {
-                isFlipping = true;
-                setTimeout(() => {
-                    firstCard.classList.remove('is-flipped');
-                    secondCard.classList.remove('is-flipped');
-                    resetBoard();
-                }, 1000);
-            }
-        }
-
-        function resetBoard() {
-            [firstCard, secondCard] = [null, null];
-            isFlipping = false;
-        }
-
-        function startTimer() {
-            startTime = Date.now();
-            timerInterval = setInterval(() => {
-                const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-                const minutes = Math.floor(elapsedTime / 60).toString().padStart(2, '0');
-                const seconds = (elapsedTime % 60).toString().padStart(2, '0');
-                document.getElementById('timer').textContent = `${minutes}:${seconds}`;
-            }, 1000);
-        }
-
-        function endGame() {
-            clearInterval(timerInterval);
-            localStorage.setItem('timer', document.getElementById('time').textContent);
-            localStorage.setItem('moves', moves);
-            window.location.href = 'score.html';
-        }
+function flipCard() {
+    if (lockBoard || this === firstCard) return;
+    this.classList.add('flip');
+    if (!firstCard) {
+        firstCard = this;
+    } else {
+        secondCard = this;
+        moves++;
+        document.getElementById('moves').textContent = `${moves}`;
+        checkForMatch();
     }
+}
 
-    // Score Page Logic
-    const finalTime = document.getElementById('finalTime');
-    const finalMoves = document.getElementById('finalMoves');
-    if (finalTime && finalMoves) {
-        finalTime.textContent = localStorage.getItem('timer');
-        finalMoves.textContent = localStorage.getItem('moves');
+function checkForMatch() {
+    const firstCardImage = getComputedStyle(firstCard.querySelector('.card-front')).backgroundImage;
+    const secondCardImage = getComputedStyle(secondCard.querySelector('.card-front')).backgroundImage;
+    const isMatch = firstCardImage === secondCardImage;
+    isMatch ? disableCards() : unflipCards();
+}
+
+function disableCards() {
+    firstCard.removeEventListener('click', flipCard);
+    secondCard.removeEventListener('click', flipCard);
+    resetBoard();
+    pairsFound++;
+    if (pairsFound === cardImages.length) {
+        endGame();
     }
-});
+}
+
+function unflipCards() {
+    lockBoard = true;
+    setTimeout(() => {
+        firstCard.classList.remove('flip');
+        secondCard.classList.remove('flip');
+        resetBoard();
+    }, 1500);
+}
+
+function resetBoard() {
+    [firstCard, secondCard, lockBoard] = [null, null, false];
+}
+
+function updateTimer() {
+    time++;
+    const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+    const seconds = (time % 60).toString().padStart(2, '0');
+    document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+}
+
+function endGame() {
+    clearInterval(timer);
+    const finalScore = `${moves} mouvements en ${document.getElementById('timer').textContent}`;
+    localStorage.setItem('finalScore', finalScore);
+    window.location.href = 'score.html';
+}
