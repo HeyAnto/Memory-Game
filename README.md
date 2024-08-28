@@ -20,8 +20,6 @@ Check out the live demo: [Memory Game Live](https://heyanto.github.io/Memory-Gam
 
 ![Screenshot](Assets/readme-screenshot2.png)
 
-![Screenshot](Assets/readme-screenshot3.png)
-
 ## Installation
 1. Clone the repository:
 ```bash
